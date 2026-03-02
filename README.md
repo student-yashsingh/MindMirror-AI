@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="assets/image.png" alt="MindMirror AI Banner" width="900"/>
-</p>
+
 
 <h1 align="center">🧠 MindMirror AI</h1>
 
@@ -50,11 +48,11 @@ It:
 
 ## 🚀 Current Status
 
-Backend Security Layer: ✅ Completed  
-Authentication System: ✅ Working  
-Protected Routes: ✅ Active  
-AI Integration: 🔄 In Progress  
-Frontend & Deployment: 🔜 Planned  
+Backend Security Layer:  Completed  
+Authentication System: Working  
+Protected Routes:  Active  
+AI Integration:  In Progress  
+Frontend & Deployment:  Planned  
 
 ---
 
