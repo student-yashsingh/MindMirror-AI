@@ -61,6 +61,6 @@ Frontend & Deployment: 🔜 Planned
 ## 👨‍💻 Developer
 
 Built and designed by **Yash Singh**  
-Full Stack Developer & AI System Architect  
+Full Stack Developer & GenAI Enthusiast  
 
 Deployment coming soon.
