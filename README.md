@@ -9,57 +9,64 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: #0f172a;
-    color: #f1f5f9;
+    background: #0b0f19;
+    color: #f8fafc;
     line-height: 1.7;
 }
 
 header {
-    background: linear-gradient(135deg, #4f46e5, #0ea5e9);
-    padding: 80px 20px;
+    background: linear-gradient(135deg, #111827, #1e3a8a);
+    padding: 100px 20px;
     text-align: center;
 }
 
 header h1 {
-    font-size: 3.5rem;
+    font-size: 3.8rem;
     margin: 0;
+    background: linear-gradient(90deg, #60a5fa, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 header p {
-    font-size: 1.3rem;
-    margin-top: 15px;
-    opacity: 0.95;
+    font-size: 1.4rem;
+    margin-top: 20px;
+    opacity: 0.9;
 }
 
 section {
-    padding: 60px 10%;
+    padding: 80px 10%;
 }
 
 h2 {
+    font-size: 2.4rem;
+    margin-bottom: 40px;
+    text-align: center;
     color: #38bdf8;
-    margin-bottom: 25px;
-    font-size: 2rem;
+}
+
+.problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
 }
 
 .card {
-    background: #1e293b;
-    padding: 30px;
+    background: #111827;
+    padding: 25px;
     border-radius: 16px;
-    margin-bottom: 30px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    transition: 0.3s ease;
 }
 
-.skills span {
-    display: inline-block;
-    background: #334155;
-    padding: 10px 15px;
-    border-radius: 25px;
-    margin: 6px;
-    font-size: 0.9rem;
+.card:hover {
+    transform: translateY(-8px);
 }
 
-.features li {
-    margin-bottom: 12px;
+.card img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 20px;
 }
 
 .highlight {
@@ -67,21 +74,23 @@ h2 {
     font-weight: bold;
 }
 
-.status {
-    color: #4ade80;
-    font-weight: bold;
+.skills span {
+    display: inline-block;
+    background: #1f2937;
+    padding: 10px 16px;
+    margin: 6px;
+    border-radius: 25px;
+    font-size: 0.9rem;
 }
 
-img {
-    width: 100%;
-    border-radius: 12px;
-    margin-top: 20px;
+.center {
+    text-align: center;
 }
 
 footer {
     text-align: center;
-    padding: 30px;
-    background: #0b1120;
+    padding: 40px;
+    background: #05080f;
     color: #94a3b8;
 }
 </style>
@@ -95,115 +104,98 @@ footer {
 </header>
 
 <section>
-<h2>📌 What is MindMirror AI?</h2>
+<h2>⚠ The Problem</h2>
+
+<div class="problem-grid">
+
 <div class="card">
-    <p>
-        <span class="highlight">MindMirror AI</span> is an intelligent emotional journaling system 
-        that helps users understand their feelings using Artificial Intelligence.
-    </p>
-    <p>
-        It securely stores user journal entries, analyzes emotional tone, and provides 
-        personalized AI-generated insights to improve mental clarity and self-awareness.
-    </p>
-    <p>
-        This project demonstrates real-world backend security architecture combined with 
-        AI integration principles.
-    </p>
+<img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4" alt="Stressed Student">
+<h3>Stressed Student</h3>
+<p>Academic pressure, deadlines, exams and expectations often lead to mental exhaustion and anxiety.</p>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1551434678-e076c223a692" alt="Frustrated Employee">
+<h3>Frustrated Employee</h3>
+<p>Work overload, burnout and constant pressure create emotional instability and stress.</p>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61" alt="Burnout">
+<h3>Lost Focus & Burnout</h3>
+<p>Overthinking, emotional confusion and lack of clarity impact productivity and well-being.</p>
+</div>
+
 </div>
 </section>
 
 <section>
-<h2>👨‍💻 Developer</h2>
-<div class="card">
-    <p><strong>Name:</strong> Yash Singh</p>
-    <p><strong>Role:</strong> Full Stack Developer & AI System Architect</p>
-    <p>
-        This project is independently designed and developed by Yash Singh as a 
-        production-ready AI backend foundation.
-    </p>
-    <p class="status">Deployment: Planned (Currently In Development)</p>
+<h2>💡 The Solution — MindMirror AI</h2>
+
+<div class="card center">
+<img src="https://images.unsplash.com/photo-1677442136019-21780ecad995" alt="AI Brain">
+<p>
+<span class="highlight">MindMirror AI</span> analyzes your journal entries using Artificial Intelligence,
+detects emotional patterns, and provides personalized mental wellness insights.
+</p>
+
+<p>
+It acts like a digital emotional mirror — reflecting your thoughts back with clarity,
+security, and intelligent guidance.
+</p>
 </div>
+
+</section>
+
+<section>
+<h2>🚀 What This Project Does</h2>
+
+<div class="card">
+<ul>
+<li>Secure User Registration & Login</li>
+<li>JWT Authentication & OAuth2 Authorization</li>
+<li>Protected Routes with Bearer Token</li>
+<li>User-Specific Journal Storage (MongoDB Atlas)</li>
+<li>Password Hashing with bcrypt</li>
+<li>AI Emotion Analysis (In Progress)</li>
+<li>Future Next.js Animated Dashboard</li>
+<li>Planned Cloud Deployment</li>
+</ul>
+</div>
+
 </section>
 
 <section>
 <h2>🛠 Skills & Technologies Used</h2>
-<div class="card skills">
-    <span>Python</span>
-    <span>FastAPI</span>
-    <span>MongoDB Atlas</span>
-    <span>JWT Authentication</span>
-    <span>OAuth2 Password Flow</span>
-    <span>Passlib (bcrypt)</span>
-    <span>API Architecture</span>
-    <span>Backend Security</span>
-    <span>AI Model Integration</span>
-    <span>Next.js (Frontend - Planned)</span>
+
+<div class="card skills center">
+<span>Python</span>
+<span>FastAPI</span>
+<span>MongoDB Atlas</span>
+<span>JWT Authentication</span>
+<span>OAuth2</span>
+<span>Passlib (bcrypt)</span>
+<span>Backend Security</span>
+<span>AI Integration</span>
+<span>Next.js (Planned)</span>
 </div>
+
 </section>
 
 <section>
-<h2>🔐 Current Functionalities (Implemented)</h2>
-<div class="card">
-<ul class="features">
-    <li>Secure User Registration System</li>
-    <li>Password Hashing using bcrypt</li>
-    <li>JWT Token Generation</li>
-    <li>OAuth2 Bearer Authentication</li>
-    <li>Protected API Routes</li>
-    <li>User-Specific Journal Storage</li>
-    <li>MongoDB Cloud Database Integration</li>
-    <li>Swagger Documentation with Authorization</li>
-</ul>
-</div>
-</section>
+<h2>👨‍💻 Developer</h2>
 
-<section>
-<h2>🚀 Future Functionalities</h2>
-<div class="card">
-<ul class="features">
-    <li>AI-Based Emotion Detection</li>
-    <li>Sentiment Analysis Engine</li>
-    <li>Personalized Mental Insights</li>
-    <li>RAG-Based Memory Retrieval System</li>
-    <li>Interactive Animated Dashboard (Next.js)</li>
-    <li>Cloud Deployment & CI/CD Integration</li>
-    <li>Full Production SaaS Architecture</li>
-</ul>
-</div>
-</section>
-
-<section>
-<h2>📊 System Workflow</h2>
-<div class="card">
-    <p>
-        Register → Login → JWT Token Generated → Authorize → 
-        Access Protected Journal Route → AI Analysis → Store in MongoDB
-    </p>
-</div>
-</section>
-
-<section>
-<h2>🖼 Architecture & Preview</h2>
-<div class="card">
-    <p><strong>Backend API (FastAPI + JWT + MongoDB)</strong></p>
-    <img src="https://fastapi.tiangolo.com/img/index/index-01-swagger-ui-simple.png" alt="Swagger UI">
+<div class="card center">
+<p><strong>Built by:</strong> Yash Singh</p>
+<p>Full Stack Developer & AI System Architect</p>
+<p>Status: Backend Completed | AI & Frontend In Progress</p>
+<p>Deployment Planned for Future Release</p>
 </div>
 
-<div class="card">
-    <p><strong>MongoDB Cloud Database</strong></p>
-    <img src="https://webassets.mongodb.com/_com_assets/cms/mongodb-logo-rgb-j6w271g1xn.jpg" alt="MongoDB">
-</div>
-
-<div class="card">
-    <p><strong>AI Integration Vision</strong></p>
-    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995" alt="AI Concept">
-</div>
 </section>
 
 <footer>
-    © 2026 MindMirror AI | Designed & Developed by Yash Singh  
-    <br>
-    Status: Backend Completed | Frontend & AI Integration In Progress
+© 2026 MindMirror AI | Designed & Developed by Yash Singh
 </footer>
 
 </body>
