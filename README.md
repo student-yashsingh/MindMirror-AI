@@ -1,179 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>MindMirror AI</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: #0f172a;
-            color: #f1f5f9;
-            line-height: 1.6;
-        }
+<meta charset="UTF-8">
+<title>MindMirror AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        header {
-            background: linear-gradient(135deg, #6366f1, #0ea5e9);
-            padding: 60px 20px;
-            text-align: center;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f172a;
+    color: #f1f5f9;
+    line-height: 1.7;
+}
 
-        header h1 {
-            font-size: 3rem;
-            margin: 0;
-        }
+header {
+    background: linear-gradient(135deg, #4f46e5, #0ea5e9);
+    padding: 80px 20px;
+    text-align: center;
+}
 
-        header p {
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
+header h1 {
+    font-size: 3.5rem;
+    margin: 0;
+}
 
-        section {
-            padding: 50px 10%;
-        }
+header p {
+    font-size: 1.3rem;
+    margin-top: 15px;
+    opacity: 0.95;
+}
 
-        h2 {
-            color: #38bdf8;
-            margin-bottom: 20px;
-        }
+section {
+    padding: 60px 10%;
+}
 
-        .card {
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
+h2 {
+    color: #38bdf8;
+    margin-bottom: 25px;
+    font-size: 2rem;
+}
 
-        .skills span {
-            display: inline-block;
-            background: #334155;
-            padding: 8px 12px;
-            border-radius: 20px;
-            margin: 5px;
-            font-size: 0.9rem;
-        }
+.card {
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
 
-        .features li {
-            margin-bottom: 10px;
-        }
+.skills span {
+    display: inline-block;
+    background: #334155;
+    padding: 10px 15px;
+    border-radius: 25px;
+    margin: 6px;
+    font-size: 0.9rem;
+}
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #0b1120;
-            font-size: 0.9rem;
-            color: #94a3b8;
-        }
+.features li {
+    margin-bottom: 12px;
+}
 
-        img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
+.highlight {
+    color: #22d3ee;
+    font-weight: bold;
+}
 
-        .highlight {
-            color: #22d3ee;
-            font-weight: bold;
-        }
-    </style>
+.status {
+    color: #4ade80;
+    font-weight: bold;
+}
+
+img {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    background: #0b1120;
+    color: #94a3b8;
+}
+</style>
 </head>
+
 <body>
 
 <header>
     <h1>🧠 MindMirror AI</h1>
-    <p>An AI-Powered Emotional Journal & Mental Wellness Platform</p>
+    <p>AI-Powered Emotional Journal & Mental Wellness Intelligence Platform</p>
 </header>
 
 <section>
-    <h2>📌 About The Project</h2>
-    <div class="card">
-        <p>
-            <span class="highlight">MindMirror AI</span> is a secure, AI-driven journaling platform 
-            designed to analyze emotions, track mental wellness, and provide intelligent insights 
-            using advanced AI models.
-        </p>
-        <p>
-            The system combines modern backend architecture with AI-powered analysis to create 
-            a personalized emotional reflection experience.
-        </p>
-    </div>
+<h2>📌 What is MindMirror AI?</h2>
+<div class="card">
+    <p>
+        <span class="highlight">MindMirror AI</span> is an intelligent emotional journaling system 
+        that helps users understand their feelings using Artificial Intelligence.
+    </p>
+    <p>
+        It securely stores user journal entries, analyzes emotional tone, and provides 
+        personalized AI-generated insights to improve mental clarity and self-awareness.
+    </p>
+    <p>
+        This project demonstrates real-world backend security architecture combined with 
+        AI integration principles.
+    </p>
+</div>
 </section>
 
 <section>
-    <h2>👨‍💻 Developer</h2>
-    <div class="card">
-        <p><strong>Name:</strong> Yash Singh</p>
-        <p><strong>Role:</strong> Full Stack Developer & AI System Designer</p>
-        <p><strong>Focus:</strong> Backend Architecture, AI Integration, Secure Authentication Systems</p>
-    </div>
+<h2>👨‍💻 Developer</h2>
+<div class="card">
+    <p><strong>Name:</strong> Yash Singh</p>
+    <p><strong>Role:</strong> Full Stack Developer & AI System Architect</p>
+    <p>
+        This project is independently designed and developed by Yash Singh as a 
+        production-ready AI backend foundation.
+    </p>
+    <p class="status">Deployment: Planned (Currently In Development)</p>
+</div>
 </section>
 
 <section>
-    <h2>⚙️ Tech Stack</h2>
-    <div class="card skills">
-        <span>FastAPI</span>
-        <span>MongoDB Atlas</span>
-        <span>JWT Authentication</span>
-        <span>OAuth2</span>
-        <span>Python</span>
-        <span>Passlib (bcrypt)</span>
-        <span>Next.js (Frontend Planned)</span>
-        <span>AI Model Integration</span>
-    </div>
+<h2>🛠 Skills & Technologies Used</h2>
+<div class="card skills">
+    <span>Python</span>
+    <span>FastAPI</span>
+    <span>MongoDB Atlas</span>
+    <span>JWT Authentication</span>
+    <span>OAuth2 Password Flow</span>
+    <span>Passlib (bcrypt)</span>
+    <span>API Architecture</span>
+    <span>Backend Security</span>
+    <span>AI Model Integration</span>
+    <span>Next.js (Frontend - Planned)</span>
+</div>
 </section>
 
 <section>
-    <h2>🔐 Current Backend Features</h2>
-    <div class="card">
-        <ul class="features">
-            <li>Secure User Registration</li>
-            <li>Password Hashing with bcrypt</li>
-            <li>JWT Token Authentication</li>
-            <li>OAuth2 Password Flow Integration</li>
-            <li>Protected Routes using Bearer Token</li>
-            <li>User-Specific Journal Storage</li>
-            <li>MongoDB Cloud Database Integration</li>
-        </ul>
-    </div>
+<h2>🔐 Current Functionalities (Implemented)</h2>
+<div class="card">
+<ul class="features">
+    <li>Secure User Registration System</li>
+    <li>Password Hashing using bcrypt</li>
+    <li>JWT Token Generation</li>
+    <li>OAuth2 Bearer Authentication</li>
+    <li>Protected API Routes</li>
+    <li>User-Specific Journal Storage</li>
+    <li>MongoDB Cloud Database Integration</li>
+    <li>Swagger Documentation with Authorization</li>
+</ul>
+</div>
 </section>
 
 <section>
-    <h2>🚀 Upcoming Features</h2>
-    <div class="card">
-        <ul class="features">
-            <li>AI-Based Emotion Detection</li>
-            <li>Sentiment Analysis Engine</li>
-            <li>RAG Memory System</li>
-            <li>Personalized Mood Insights</li>
-            <li>Interactive Dashboard UI</li>
-            <li>Animated Frontend using Next.js</li>
-            <li>Deployment & Cloud Hosting</li>
-        </ul>
-    </div>
+<h2>🚀 Future Functionalities</h2>
+<div class="card">
+<ul class="features">
+    <li>AI-Based Emotion Detection</li>
+    <li>Sentiment Analysis Engine</li>
+    <li>Personalized Mental Insights</li>
+    <li>RAG-Based Memory Retrieval System</li>
+    <li>Interactive Animated Dashboard (Next.js)</li>
+    <li>Cloud Deployment & CI/CD Integration</li>
+    <li>Full Production SaaS Architecture</li>
+</ul>
+</div>
 </section>
 
 <section>
-    <h2>📊 System Flow</h2>
-    <div class="card">
-        <p>
-            Register → Login → JWT Token Generation → Authorize → 
-            Protected Journal Entry → AI Analysis → Stored in Database
-        </p>
-    </div>
+<h2>📊 System Workflow</h2>
+<div class="card">
+    <p>
+        Register → Login → JWT Token Generated → Authorize → 
+        Access Protected Journal Route → AI Analysis → Store in MongoDB
+    </p>
+</div>
 </section>
 
 <section>
-    <h2>🖼 Project Preview</h2>
-    <div class="card">
-        <p>Backend Swagger UI (Authentication & Protected Routes)</p>
-        <img src="https://fastapi.tiangolo.com/img/index/index-01-swagger-ui-simple.png" alt="Swagger UI Preview">
-    </div>
+<h2>🖼 Architecture & Preview</h2>
+<div class="card">
+    <p><strong>Backend API (FastAPI + JWT + MongoDB)</strong></p>
+    <img src="https://fastapi.tiangolo.com/img/index/index-01-swagger-ui-simple.png" alt="Swagger UI">
+</div>
+
+<div class="card">
+    <p><strong>MongoDB Cloud Database</strong></p>
+    <img src="https://webassets.mongodb.com/_com_assets/cms/mongodb-logo-rgb-j6w271g1xn.jpg" alt="MongoDB">
+</div>
+
+<div class="card">
+    <p><strong>AI Integration Vision</strong></p>
+    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995" alt="AI Concept">
+</div>
 </section>
 
 <footer>
-    © 2026 MindMirror AI | Designed & Developed by Yash Singh
+    © 2026 MindMirror AI | Designed & Developed by Yash Singh  
+    <br>
+    Status: Backend Completed | Frontend & AI Integration In Progress
 </footer>
 
 </body>
