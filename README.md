@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/mindmirror-banner.png" alt="MindMirror AI Banner" width="900"/>
+  <img src="downloads/mindmirror_ai_img_github.png" alt="MindMirror AI Banner" width="900"/>
 </p>
 
 <h1 align="center">🧠 MindMirror AI</h1>
