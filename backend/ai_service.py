@@ -1,30 +1,71 @@
-import os
 from groq import Groq
+import os
+import json
+import re
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
-def analyze_mood(text: str):
+
+def extract_json(text: str):
+    """
+    Extract JSON object from LLM response safely.
+    """
+    try:
+        # Remove markdown formatting if present
+        text = text.strip()
+        text = re.sub(r"```json|```", "", text)
+
+        # Extract JSON block
+        json_match = re.search(r"\{.*\}", text, re.DOTALL)
+        if json_match:
+            return json.loads(json_match.group())
+    except:
+        pass
+
+    return None
+
+
+def detect_emotion_with_llm(text: str):
     prompt = f"""
-    You are a mental health AI assistant.
-    Analyze the following journal entry and return:
+    Analyze the emotional tone of this journal entry.
 
-    1. Overall mood (one word)
-    2. Emotional intensity (low/medium/high)
-    3. Short supportive feedback (2-3 lines)
+    Classify into ONE of:
+    Happy, Sad, Stressed, Neutral.
+
+    Return STRICT JSON only:
+    {{
+        "emotion": "Happy/Sad/Stressed/Neutral",
+        "confidence": 0.0-1.0
+    }}
 
     Journal:
     {text}
     """
 
-    response = client.chat.completions.create(
-        model="llama3-70b-8192",
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.7
-    )
+    try:
+        response = client.chat.completions.create(
+            model=os.getenv("MODEL_NAME"),
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.2
+        )
 
-    return response.choices[0].message.content
+        content = response.choices[0].message.content
+
+        parsed = extract_json(content)
+
+        if parsed:
+            return parsed
+
+    except Exception as e:
+        print("LLM Error:", e)
+
+    # Fallback
+    return {
+        "emotion": "Neutral",
+        "confidence": 0.5
+    }

@@ -25,7 +25,7 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 
 client = MongoClient(MONGO_URI)
-db = client["mindmirror"]
+db = client["mindmirror_db"]
 
 users_collection = db["users"]
 journals_collection = db["journals"]

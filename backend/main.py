@@ -3,12 +3,14 @@ from dotenv import load_dotenv
 import os
 
 from routes.user import router as user_router
+from routes.journal import router as journal_router
 from database import users_collection   
 load_dotenv()
 
 app = FastAPI(title="MindMirror AI API")
 
 app.include_router(user_router)
+app.include_router(journal_router)
 
 @app.get("/")
 def home():
