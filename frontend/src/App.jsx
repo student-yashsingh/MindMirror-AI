@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Journal from "./pages/Journal";
 import Chat from "./pages/Chat";
+import Reports from "./pages/Reports";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/journal" element={<Journal />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/reports" element={<Reports/>}/>
       </Routes>
     </BrowserRouter>
   );

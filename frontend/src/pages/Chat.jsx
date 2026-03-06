@@ -1,7 +1,7 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
-import Sidebar from "../components/Sidebar";
+import Layout from "../components/Layout";
 
 export default function Chat(){
 
@@ -9,6 +9,13 @@ export default function Chat(){
 
   const [message,setMessage] = useState("");
   const [messages,setMessages] = useState([]);
+  const [loading,setLoading] = useState(false);
+
+  const chatEndRef = useRef(null);
+
+  useEffect(()=>{
+    chatEndRef.current?.scrollIntoView({behavior:"smooth"});
+  },[messages]);
 
   async function sendMessage(){
 
@@ -19,8 +26,9 @@ export default function Chat(){
       text:message
     };
 
-    setMessages([...messages,userMsg]);
+    setMessages(prev=>[...prev,userMsg]);
     setMessage("");
+    setLoading(true);
 
     try{
 
@@ -43,40 +51,49 @@ export default function Chat(){
       console.log(err);
     }
 
+    setLoading(false);
   }
 
   return(
 
-    <div className="flex min-h-screen bg-[#05010a] text-white">
+    <Layout>
 
-      <Sidebar/>
+      <div className="flex flex-col h-[85vh]">
 
-      <div className="flex-1 p-10 flex flex-col">
-
-        <h1 className="text-4xl font-bold mb-8
+        <h1 className="text-4xl font-bold mb-6
         bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-400
         bg-clip-text text-transparent">
           AI Mental Companion
         </h1>
 
+
         {/* CHAT WINDOW */}
 
         <div className="flex-1 overflow-y-auto
         bg-white/5 backdrop-blur-xl border border-white/10
-        rounded-xl p-6 mb-6">
+        rounded-2xl p-6 mb-6 shadow-[0_10px_50px_rgba(0,0,0,0.6)]">
+
+          {messages.length===0 && (
+
+            <div className="text-center text-gray-500 mt-24">
+              Start a conversation with your AI emotional assistant.
+            </div>
+
+          )}
 
           {messages.map((m,i)=>(
 
             <div
             key={i}
-            className={`mb-4 flex
+            className={`mb-5 flex
             ${m.role==="user" ? "justify-end":"justify-start"}`}>
 
               <div
-              className={`max-w-md p-3 rounded-lg
+              className={`max-w-md px-4 py-3 rounded-2xl text-sm
+              shadow-lg
               ${m.role==="user"
-                ? "bg-purple-600"
-                : "bg-gray-700"
+                ? "bg-gradient-to-r from-purple-600 to-indigo-600"
+                : "bg-gray-800 border border-white/10"
               }`}>
 
                 {m.text}
@@ -87,7 +104,17 @@ export default function Chat(){
 
           ))}
 
+          {loading && (
+            <div className="text-gray-400 text-sm">
+              AI is typing...
+            </div>
+          )}
+
+          <div ref={chatEndRef}></div>
+
         </div>
+
+
 
         {/* INPUT */}
 
@@ -96,17 +123,18 @@ export default function Chat(){
           <input
           value={message}
           onChange={(e)=>setMessage(e.target.value)}
-          placeholder="Ask AI about your emotions..."
-          className="flex-1 p-3 rounded-lg bg-black/40
+          onKeyDown={(e)=> e.key==="Enter" && sendMessage()}
+          placeholder="Ask about your emotions..."
+          className="flex-1 p-4 rounded-xl bg-black/40
           border border-white/10 outline-none
           focus:border-purple-400"
           />
 
           <button
           onClick={sendMessage}
-          className="px-6 py-3 rounded-lg
+          className="px-7 py-3 rounded-xl font-semibold
           bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-600
-          hover:scale-105 transition">
+          hover:scale-105 transition shadow-lg">
 
             Send
 
@@ -116,6 +144,7 @@ export default function Chat(){
 
       </div>
 
-    </div>
+    </Layout>
+
   );
 }
