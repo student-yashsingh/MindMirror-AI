@@ -10,28 +10,20 @@ load_dotenv()
 
 
 # Password Hashing Setup
-
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 # JWT Settings
-
-
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 
 # OAuth2 Setup
-
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 # Password Functions
-
-
 def hash_password(password: str):
     return pwd_context.hash(password[:72])
 
@@ -42,8 +34,6 @@ def verify_password(plain_password: str, hashed_password: str):
 
 
 # Token Functions
-
-
 def create_access_token(data: dict):
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -61,8 +51,6 @@ def decode_token(token: str):
 
 
 # Get Current User
-
-
 def get_current_user(token: str = Depends(oauth2_scheme)):
     payload = decode_token(token)
     if payload is None:
