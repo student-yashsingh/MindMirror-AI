@@ -35,24 +35,24 @@ It:
 
 ## 🛠 Tech Stack
 
-- Python  
-- FastAPI  
-- MongoDB Atlas  
-- JWT Authentication  
-- OAuth2  
+- Python  (done)
+- FastAPI (backend done)
+- MongoDB Atlas  (done)
+- JWT Authentication  (done)
+- OAuth2  (done)
 - Passlib (bcrypt)  
-- AI Model Integration (In Progress)  
-- Next.js Frontend (Planned)
+- AI Model Integration (done)
+- React js and tailwind css Frontend (IN PROGRESS)
 
 ---
 
 ## 🚀 Current Status
 
 Backend Security Layer:  Completed  
-Authentication System: Working  
+Authentication System: Completed
 Protected Routes:  Active  
-AI Integration:  In Progress  
-Frontend & Deployment:  Planned  
+AI Integration:  Completed
+Frontend & Deployment:  Planned and currently working on it
 
 ---
 
