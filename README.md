@@ -1,6 +1,6 @@
 
 
-<h1 align="center">🧠 MindMirror AI</h1>
+<h1 align="center"> MindMirror AI</h1>
 
 <p align="center">
 AI-Powered Emotional Journal & Mental Wellness Intelligence Platform
