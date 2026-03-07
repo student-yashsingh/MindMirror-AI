@@ -7,7 +7,7 @@ from routes.user import router as user_router
 from routes.journal import router as journal_router
 from routes.chat import router as chat_router
 from database import users_collection
-
+from routes import user
 load_dotenv()
 
 app = FastAPI(title="MindMirror AI API")
@@ -29,6 +29,8 @@ app.add_middleware(
 app.include_router(user_router)
 app.include_router(journal_router)
 app.include_router(chat_router)
+app.include_router(user.router, prefix="/user", tags=["User"])
+
 
 @app.get("/")
 def home():

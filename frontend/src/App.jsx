@@ -5,7 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import Journal from "./pages/Journal";
 import Chat from "./pages/Chat";
 import Reports from "./pages/Reports";
-
+import Profile from "./pages/Profile";
+import Home from "./pages/Home";
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,8 @@ function App() {
         <Route path="/journal" element={<Journal />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/reports" element={<Reports/>}/>
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );
