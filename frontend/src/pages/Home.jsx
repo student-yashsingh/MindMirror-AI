@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
+// import NeuralBackground from "../components/NeuralBackground";
 import ParticlesBackground from "../components/ParticlesBackground";
 
 export default function Home() {
@@ -104,7 +105,6 @@ such as happiness, sadness, stress, and neutrality.
 </motion.div>
 
 
-
 <motion.div
 whileHover={{scale:1.05}}
 className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl"
@@ -120,7 +120,6 @@ and emotional stability metrics.
 </p>
 
 </motion.div>
-
 
 
 <motion.div
