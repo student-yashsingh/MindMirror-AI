@@ -34,7 +34,7 @@ export default function Register() {
 
       if(res.data.access_token){
         setToken(res.data.access_token);
-        navigate("/dashboard");
+        navigate("/");
       }else{
         alert("Account created. Please login.");
         navigate("/login");
