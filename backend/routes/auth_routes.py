@@ -80,6 +80,9 @@
 
 #     token = data.get("token")
 
+#     # DEBUG PRINT (important)
+#     print("GOOGLE TOKEN RECEIVED:", token)
+
 #     if not token:
 #         raise HTTPException(status_code=400, detail="Google token missing")
 
@@ -116,11 +119,8 @@
 #     }
 
 
-
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from bson import ObjectId
-
 from database import users_collection
 from auth import (
     hash_password,
@@ -130,7 +130,6 @@ from auth import (
 )
 
 router = APIRouter()
-
 
 # ---------------- REGISTER ---------------- #
 
@@ -197,9 +196,8 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
 @router.post("/google-login")
 def google_login(data: dict):
 
-    token = data.get("token")
+    token = data.get("credential")
 
-    # DEBUG PRINT (important)
     print("GOOGLE TOKEN RECEIVED:", token)
 
     if not token:
@@ -221,11 +219,9 @@ def google_login(data: dict):
         }
 
         result = users_collection.insert_one(new_user)
-
         user_id = str(result.inserted_id)
 
     else:
-
         user_id = str(user["_id"])
 
     access_token = create_access_token(

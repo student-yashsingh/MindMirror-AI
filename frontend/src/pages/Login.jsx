@@ -41,25 +41,8 @@ export default function Login(){
     }
   };
 
-  // const handleGoogleLogin = async (credentialResponse)=>{
-  //   try{
-
-  //     const res = await axios.post(
-  //       "http://localhost:8000/google-login",
-  //       {
-  //         token:credentialResponse.credential
-  //       }
-  //     );
-
-  //     setToken(res.data.access_token);
-  //     navigate("/");
-
-  //   }catch(err){
-  //     console.log(err);
-  //     alert("Google login failed");
-  //   }
-  // };
   const handleGoogleLogin = async (credentialResponse) => {
+
     console.log("GOOGLE RESPONSE:", credentialResponse);
   
     if (!credentialResponse?.credential) {
@@ -68,9 +51,12 @@ export default function Login(){
     }
   
     try {
+  
       const res = await axios.post(
         "http://localhost:8000/google-login",
-        { token: credentialResponse.credential }
+        {
+          credential: credentialResponse.credential
+        }
       );
   
       setToken(res.data.access_token);
@@ -81,7 +67,6 @@ export default function Login(){
       alert("Google login failed");
     }
   };
-
   return(
 
     <div className="relative min-h-screen overflow-hidden text-white">

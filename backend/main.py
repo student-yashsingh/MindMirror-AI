@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from chat_ws import router as chat_router
 import os
 
 from routes.user import router as user_router
 from routes.journal import router as journal_router
-from routes.chat import router as chat_router
 from routes.auth_routes import router as auth_router
 from database import users_collection
 from routes import user
@@ -18,7 +18,7 @@ origins = [
     "http://localhost:5173",  
 ]
 
-app.add_middleware(
+app.add_middleware( 
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
@@ -36,7 +36,7 @@ app.include_router(user.router, prefix="/user", tags=["User"])
 
 @app.get("/")
 def home():
-    return {"message": "MindMirror AI Backend Running 🚀"}
+    return {"message": "MindMirror AI Backend Running "}
 
 
 @app.get("/test-env")

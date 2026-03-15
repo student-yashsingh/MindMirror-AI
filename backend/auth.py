@@ -5,15 +5,14 @@ from fastapi import HTTPException, Depends
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from bson import ObjectId
-from google.oauth2 import id_token
-from google.auth.transport import requests
+import requests
 import os
 
 from database import users_collection
 
 load_dotenv()
 
-# ---------------- PASSWORD HASHING ---------------- #
+# PASSWORD HASHING
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -26,22 +25,22 @@ def verify_password(plain_password: str, hashed_password: str):
     return pwd_context.verify(plain_password[:72], hashed_password)
 
 
-# ---------------- JWT SETTINGS ---------------- #
+# JWT SETTINGS
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
-# ---------------- GOOGLE CLIENT ID ---------------- #
+# GOOGLE CLIENT ID 
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
-# ---------------- OAUTH2 SETUP ---------------- #
+#  OAUTH2 SETUP 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 
-# ---------------- TOKEN FUNCTIONS ---------------- #
+# TOKEN FUNCTIONS
 
 def create_access_token(data: dict):
 
@@ -82,15 +81,32 @@ def verify_google_token(token: str):
 
     try:
 
-        idinfo = id_token.verify_oauth2_token(
-            token,
-            requests.Request(),
-            GOOGLE_CLIENT_ID
-        )
+        url = "https://oauth2.googleapis.com/tokeninfo"
+        response = requests.get(url, params={"id_token": token})
+        google_user = response.json()
 
-        return idinfo
+        if "error_description" in google_user:
+            raise HTTPException(
+                status_code=400,
+                detail=google_user["error_description"]
+            )
 
-    except ValueError:
+        # Accept both aud and azp
+        client_id = google_user.get("aud") or google_user.get("azp")
+
+        if client_id != GOOGLE_CLIENT_ID:
+            raise HTTPException(
+                status_code=400,
+                detail="Google client mismatch"
+            )
+
+        print("GOOGLE USER:", google_user)
+
+        return google_user
+
+    except Exception as e:
+
+        print("GOOGLE VERIFY ERROR:", str(e))
 
         raise HTTPException(
             status_code=400,

@@ -1,406 +1,3 @@
-// import { useEffect, useState, useContext } from "react";
-// import axios from "axios";
-// import { AuthContext } from "../context/AuthContext";
-// import { motion } from "framer-motion";
-// import Layout from "../components/Layout";
-
-// import {
-//   PieChart,
-//   Pie,
-//   Cell,
-//   Tooltip,
-//   ResponsiveContainer,
-//   Legend
-// } from "recharts";
-
-// import {
-//   LineChart,
-//   Line,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid
-// } from "recharts";
-// const COLORS = [
-//   "#a855f7", // purple
-//   "#6366f1", // indigo
-//   "#ec4899", // pink
-//   "#22d3ee", // cyan
-//   "#facc15", // yellow
-// ];
-
-// export default function Dashboard(){
-
-//   const { token } = useContext(AuthContext);
-//   const [data,setData] = useState(null);
-
-//   useEffect(()=>{
-
-//     async function loadData(){
-//       try{
-
-//         const res = await axios.get(
-//           "http://localhost:8000/journal/dashboard-summary",
-//           {
-//             headers:{
-//               Authorization:`Bearer ${token}`
-//             }
-//           }
-//         );
-
-//         setData(res.data);
-
-//       }catch(err){
-//         console.log(err);
-//       }
-//     }
-
-//     loadData();
-
-//   },[token]);
-
-
-
-//   if(!data){
-//     return(
-//       <Layout>
-//         <div className="flex items-center justify-center text-white">
-//           Loading dashboard...
-//         </div>
-//       </Layout>
-//     );
-//   }
-
-
-//   const emotionData = Object.entries(data.emotion_distribution).map(
-//     ([emotion,value])=>({
-//       name:emotion,
-//       value:value
-//     })
-//   );
-//   const moodTrendData = [
-//     { day: "Mon", mood: 0.2 },
-//     { day: "Tue", mood: -0.1 },
-//     { day: "Wed", mood: 0.5 },
-//     { day: "Thu", mood: -0.3 },
-//     { day: "Fri", mood: 0.4 },
-//     { day: "Sat", mood: 0.1 },
-//     { day: "Sun", mood: 0.6 }
-//   ];
-
-
-
-//   return(
-
-//     <Layout>
-
-//       {/* HEADER */}
-
-//       <motion.div
-//         initial={{opacity:0,y:-20}}
-//         animate={{opacity:1,y:0}}
-//         className="mb-12"
-//       >
-
-//         <h1 className="text-5xl font-bold
-//         bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-400
-//         bg-clip-text text-transparent">
-
-//           MindMirror AI Dashboard
-
-//         </h1>
-
-//         <p className="text-gray-400 mt-2">
-//           AI-powered insights about your emotional patterns
-//         </p>
-
-//       </motion.div>
-
-
-
-//       {/* STATS */}
-
-//       <div className="grid grid-cols-3 gap-8 mb-12">
-
-//         <motion.div
-//         whileHover={{scale:1.05}}
-//         className="bg-gradient-to-br from-purple-900/20 to-black/40
-//         border border-purple-500/20 backdrop-blur-xl
-//         p-8 rounded-2xl">
-
-//           <p className="text-purple-400 text-sm">
-//             Total Journals
-//           </p>
-
-//           <h2 className="text-4xl font-bold mt-1">
-//             {data.total_entries}
-//           </h2>
-
-//         </motion.div>
-
-
-
-//         <motion.div
-//         whileHover={{scale:1.05}}
-//         className="bg-gradient-to-br from-indigo-900/20 to-black/40
-//         border border-indigo-500/20 backdrop-blur-xl
-//         p-8 rounded-2xl">
-
-//           <p className="text-indigo-400 text-sm">
-//             Risk Level
-//           </p>
-
-//           <h2 className="text-3xl font-semibold mt-1">
-//             {data.risk?.level}
-//           </h2>
-
-//         </motion.div>
-
-
-
-//         <motion.div
-//         whileHover={{scale:1.05}}
-//         className="bg-gradient-to-br from-fuchsia-900/20 to-black/40
-//         border border-fuchsia-500/20 backdrop-blur-xl
-//         p-8 rounded-2xl">
-
-//           <p className="text-fuchsia-400 text-sm">
-//             Risk Score
-//           </p>
-
-//           <h2 className="text-3xl font-semibold mt-1">
-//             {data.risk?.score}
-//           </h2>
-
-//         </motion.div>
-
-//       </div>
-
-
-
-//       {/* PIE CHART */}
-
-// <div className="bg-gradient-to-br from-purple-900/20 via-black/40 to-indigo-900/20
-// border border-white/10 backdrop-blur-xl
-// p-10 rounded-2xl mb-12
-// shadow-[0_0_80px_rgba(168,85,247,0.15)]">
-
-//   <h2 className="text-2xl font-semibold mb-6
-//   bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-400
-//   bg-clip-text text-transparent">
-//     Emotion Distribution
-//   </h2>
-
-//   <div className="h-[360px]">
-
-//     <ResponsiveContainer width="100%" height="100%">
-
-//       <PieChart>
-
-//         <Pie
-//           data={emotionData}
-//           cx="50%"
-//           cy="50%"
-//           innerRadius={70}
-//           outerRadius={120}
-//           paddingAngle={5}
-//           dataKey="value"
-//           label={({ name, value }) => `${name}: ${value}`}
-//           labelLine={false}
-//           stroke="rgba(255,255,255,0.1)"
-//         >
-//           {emotionData.map((entry,index)=>(
-//             <Cell
-//               key={index}
-//               fill={COLORS[index % COLORS.length]}
-//             />
-//           ))}
-//         </Pie>
-
-//         <Tooltip
-//           contentStyle={{
-//             background:"#111827",
-//             border:"1px solid rgba(255,255,255,0.15)",
-//             borderRadius:"10px",
-//             color:"#fff",
-//             fontWeight:"500"
-//           }}
-//           labelStyle={{ color:"#fff" }}
-//           itemStyle={{ color:"#fff" }}
-//         />
-
-//         <Legend
-//           iconType="circle"
-//           wrapperStyle={{
-//             color:"#e5e7eb",
-//             fontSize:"15px",
-//             paddingTop:"10px"
-//           }}
-//         />
-
-//       </PieChart>
-//       {/* MOOD TREND */}
-
-// <div className="bg-gradient-to-br from-purple-900/20 via-black/40 to-indigo-900/20
-// border border-white/10 backdrop-blur-xl
-// p-10 rounded-2xl mb-20
-// shadow-[0_0_80px_rgba(168,85,247,0.12)]">
-
-//   <h2 className="text-2xl font-semibold mb-6
-//   bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-400
-//   bg-clip-text text-transparent">
-//     Mood Trend (Weekly)
-//   </h2>
-
-//   <div className="h-[420px]">
-
-//     <ResponsiveContainer width="100%" height="100%">
-
-//     <LineChart
-//   data={moodTrendData}
-//   margin={{ top: 20, right: 30, left: 0, bottom: 10 }}
-// >
-
-//         <CartesianGrid
-//           strokeDasharray="3 3"
-//           stroke="rgba(255,255,255,0.05)"
-//         />
-
-//         <XAxis
-//           dataKey="day"
-//           stroke="#9ca3af"
-//         />
-
-//         <YAxis
-//           stroke="#9ca3af"
-//           domain={[-1,1]}
-//         />
-
-//         <Tooltip
-//           contentStyle={{
-//             background:"#111827",
-//             border:"1px solid rgba(255,255,255,0.15)",
-//             borderRadius:"10px",
-//             color:"#fff"
-//           }}
-//         />
-
-//         <Line
-//           type="monotone"
-//           dataKey="mood"
-//           stroke="#a855f7"
-//           strokeWidth={3}
-//           dot={{ r:5 }}
-//           activeDot={{ r:8 }}
-//         />
-
-//       </LineChart>
-
-//     </ResponsiveContainer>
-
-//   </div>
-
-// </div>
-
-//     </ResponsiveContainer>
-
-//   </div>
-
-// </div>
-
-
-
-//       {/* EMOTION CARDS */}
-
-//       <div className="bg-gradient-to-br from-white/5 to-white/0
-//       border border-white/10 backdrop-blur-xl
-//       p-10 rounded-2xl mb-12">
-
-//         <h2 className="text-2xl font-semibold mb-6">
-//           Emotion Breakdown
-//         </h2>
-
-//         <div className="grid grid-cols-4 gap-6">
-
-//           {Object.entries(data.emotion_distribution).map(([emotion,value])=>{
-
-//             const colors={
-//               happy:"text-green-400",
-//               sad:"text-blue-400",
-//               stressed:"text-red-400",
-//               neutral:"text-gray-400"
-//             };
-
-//             return(
-
-//               <motion.div
-//               key={emotion}
-//               whileHover={{scale:1.07}}
-//               className="bg-black/40 border border-white/10
-//               p-6 rounded-xl">
-
-//                 <p className={`capitalize text-sm ${colors[emotion]}`}>
-//                   {emotion}
-//                 </p>
-
-//                 <p className="text-3xl font-semibold mt-1">
-//                   {value}
-//                 </p>
-
-//               </motion.div>
-
-//             );
-
-//           })}
-
-//         </div>
-
-//       </div>
-
-
-
-//       {/* METRICS */}
-
-//       <div className="bg-gradient-to-br from-white/5 to-white/0
-//       border border-white/10 backdrop-blur-xl
-//       p-10 rounded-2xl">
-
-//         <h2 className="text-2xl font-semibold mb-6">
-//           Average Emotional Metrics
-//         </h2>
-
-//         <div className="grid grid-cols-2 gap-6">
-
-//           {Object.entries(data.averages).map(([metric,value])=>(
-
-//             <motion.div
-//             key={metric}
-//             whileHover={{scale:1.07}}
-//             className="bg-black/40 border border-white/10
-//             p-6 rounded-xl">
-
-//               <p className="text-gray-400 text-sm capitalize">
-//                 {metric}
-//               </p>
-
-//               <p className="text-3xl font-semibold mt-1">
-//                 {value.toFixed(2)}
-//               </p>
-
-//             </motion.div>
-
-//           ))}
-
-//         </div>
-
-//       </div>
-
-//     </Layout>
-
-//   );
-// }
-
-
-
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
@@ -423,417 +20,294 @@ import {
   Bar
 } from "recharts";
 
-const COLORS = [
-  "#a855f7",
-  "#6366f1",
-  "#ec4899",
-  "#22d3ee"
-];
+const COLORS = ["#a855f7","#6366f1","#ec4899","#22d3ee"];
 
 export default function Dashboard(){
 
-  const { token } = useContext(AuthContext);
-  const [data,setData] = useState(null);
+const { token } = useContext(AuthContext);
 
-  useEffect(()=>{
+const [data,setData] = useState(null);
+const [trend,setTrend] = useState([]);
+const [weekly,setWeekly] = useState([]);
 
-    async function loadData(){
-      try{
+useEffect(()=>{
 
-        const res = await axios.get(
-          "http://localhost:8000/journal/dashboard-summary",
-          {
-            headers:{ Authorization:`Bearer ${token}` }
-          }
-        );
+async function load(){
 
-        setData(res.data);
+try{
 
-      }catch(err){
-        console.log(err);
-      }
-    }
+const summary = await axios.get(
+"http://localhost:8000/journal/dashboard-summary",
+{headers:{Authorization:`Bearer ${token}`}}
+);
 
-    loadData();
+setData(summary.data);
 
-  },[token]);
+const trendRes = await axios.get(
+"http://localhost:8000/journal/trend",
+{headers:{Authorization:`Bearer ${token}`}}
+);
 
+const trendFormatted = trendRes.data.trend.map(t=>({
+day:new Date(t.date).toLocaleDateString("en-US",{weekday:"short"}),
+mood:t.valence
+}));
 
+setTrend(trendFormatted);
 
-  if(!data){
-    return(
-      <Layout>
-        <div className="flex items-center justify-center text-white h-[400px]">
-          Loading dashboard...
-        </div>
-      </Layout>
-    );
-  }
+const historyRes = await axios.get(
+"http://localhost:8000/journal/history",
+{headers:{Authorization:`Bearer ${token}`}}
+);
 
+const journals = historyRes.data.journals;
 
+const weekMap={
+Mon:{happy:0,sad:0,stressed:0},
+Tue:{happy:0,sad:0,stressed:0},
+Wed:{happy:0,sad:0,stressed:0},
+Thu:{happy:0,sad:0,stressed:0},
+Fri:{happy:0,sad:0,stressed:0},
+Sat:{happy:0,sad:0,stressed:0},
+Sun:{happy:0,sad:0,stressed:0}
+};
 
-  const emotionData = Object.entries(data.emotion_distribution).map(
-    ([emotion,value])=>({
-      name:emotion,
-      value:value
-    })
-  );
+journals.forEach(j=>{
 
+const day=new Date(j.created_at).toLocaleDateString(
+"en-US",{weekday:"short"}
+);
 
+const emotion=j.emotion?.toLowerCase();
 
-  const moodTrendData = [
-    { day:"Mon", mood:0.2 },
-    { day:"Tue", mood:-0.1 },
-    { day:"Wed", mood:0.4 },
-    { day:"Thu", mood:-0.3 },
-    { day:"Fri", mood:0.3 },
-    { day:"Sat", mood:0.1 },
-    { day:"Sun", mood:0.6 }
-  ];
+if(weekMap[day]){
 
+if(emotion==="happy")weekMap[day].happy+=1;
+if(emotion==="sad")weekMap[day].sad+=1;
+if(emotion==="stressed")weekMap[day].stressed+=1;
 
+}
 
-  const weeklyEmotionData = [
-    { day:"Mon", happy:1, sad:0, stressed:1 },
-    { day:"Tue", happy:0, sad:1, stressed:1 },
-    { day:"Wed", happy:2, sad:0, stressed:0 },
-    { day:"Thu", happy:0, sad:1, stressed:1 },
-    { day:"Fri", happy:1, sad:0, stressed:1 },
-    { day:"Sat", happy:2, sad:0, stressed:0 },
-    { day:"Sun", happy:1, sad:0, stressed:0 }
-  ];
+});
 
+const weeklyResult = Object.keys(weekMap).map(day=>({
+day,
+...weekMap[day]
+}));
 
+setWeekly(weeklyResult);
 
-  return(
+}catch(err){
+console.log(err);
+}
 
-    <Layout>
+}
 
-      {/* HEADER */}
+if(token) load();
 
-      <motion.div
-        initial={{opacity:0,y:-20}}
-        animate={{opacity:1,y:0}}
-        className="mb-12"
-      >
+},[token]);
 
-        <h1 className="text-5xl font-bold
-        bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-400
-        bg-clip-text text-transparent">
+if(!data){
+return(
+<Layout>
+<div className="flex items-center justify-center text-white h-[400px]">
+Loading dashboard...
+</div>
+</Layout>
+);
+}
 
-          MindMirror AI Dashboard
+const emotionData = Object.entries(data.emotion_distribution).map(
+([emotion,value])=>({name:emotion,value})
+);
 
-        </h1>
+return(
 
-        <p className="text-gray-400 mt-2">
-          AI-powered insights about your emotional patterns
-        </p>
+<Layout>
 
-      </motion.div>
+<motion.div
+initial={{opacity:0,y:-20}}
+animate={{opacity:1,y:0}}
+className="mb-12"
+>
 
+<h1 className="text-5xl font-bold
+bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-400
+bg-clip-text text-transparent">
 
+MindMirror AI Dashboard
 
-      {/* STATS */}
+</h1>
 
-      <div className="grid grid-cols-3 gap-8 mb-12">
+<p className="text-gray-400 mt-2">
+AI-powered insights about your emotional patterns
+</p>
 
-        <motion.div
-        whileHover={{scale:1.05}}
-        className="bg-gradient-to-br from-purple-900/20 to-black/40
-        border border-purple-500/20 backdrop-blur-xl
-        p-8 rounded-2xl">
+</motion.div>
 
-          <p className="text-purple-400 text-sm">Total Journals</p>
 
-          <h2 className="text-4xl font-bold mt-1">
-            {data.total_entries}
-          </h2>
+<div className="grid grid-cols-3 gap-8 mb-12">
 
-        </motion.div>
+<motion.div
+whileHover={{scale:1.05}}
+className="bg-gradient-to-br from-purple-900/20 to-black/40
+border border-purple-500/20 backdrop-blur-xl
+p-8 rounded-2xl">
 
+<p className="text-purple-400 text-sm">Total Journals</p>
 
+<h2 className="text-4xl font-bold mt-1">
+{data.total_entries}
+</h2>
 
-        <motion.div
-        whileHover={{scale:1.05}}
-        className="bg-gradient-to-br from-indigo-900/20 to-black/40
-        border border-indigo-500/20 backdrop-blur-xl
-        p-8 rounded-2xl">
+</motion.div>
 
-          <p className="text-indigo-400 text-sm">Risk Level</p>
 
-          <h2 className="text-3xl font-semibold mt-1">
-            {data.risk?.level || "N/A"}
-          </h2>
+<motion.div
+whileHover={{scale:1.05}}
+className="bg-gradient-to-br from-indigo-900/20 to-black/40
+border border-indigo-500/20 backdrop-blur-xl
+p-8 rounded-2xl">
 
-        </motion.div>
+<p className="text-indigo-400 text-sm">Risk Level</p>
 
+<h2 className="text-3xl font-semibold mt-1">
+{data.risk?.risk_level || "Low"}
+</h2>
 
+</motion.div>
 
-        <motion.div
-        whileHover={{scale:1.05}}
-        className="bg-gradient-to-br from-fuchsia-900/20 to-black/40
-        border border-fuchsia-500/20 backdrop-blur-xl
-        p-8 rounded-2xl">
 
-          <p className="text-fuchsia-400 text-sm">Risk Score</p>
+<motion.div
+whileHover={{scale:1.05}}
+className="bg-gradient-to-br from-fuchsia-900/20 to-black/40
+border border-fuchsia-500/20 backdrop-blur-xl
+p-8 rounded-2xl">
 
-          <h2 className="text-3xl font-semibold mt-1">
-            {data.risk?.score ?? "-"}
-          </h2>
+<p className="text-fuchsia-400 text-sm">Risk Score</p>
 
-        </motion.div>
+<h2 className="text-3xl font-semibold mt-1">
+{data.stability?.stability_index ?? 0}
+</h2>
 
-      </div>
+</motion.div>
 
+</div>
 
 
-      {/* PIE CHART */}
+<div className="bg-gradient-to-br from-white/5 to-white/0
+border border-white/10 backdrop-blur-xl
+p-10 rounded-2xl mb-20">
 
-      <div className="relative
-      bg-gradient-to-br from-white/5 to-white/0
-      border border-white/10 backdrop-blur-xl
-      p-10 rounded-2xl mb-20">
+<h2 className="text-2xl font-semibold mb-6">
+Emotion Distribution
+</h2>
 
-        <div className="absolute w-[400px] h-[400px]
-        bg-purple-500/20 blur-[120px] rounded-full
-        left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"/>
+<div className="h-[380px]">
 
-        <h2 className="text-2xl font-semibold mb-6">
-          Emotion Distribution
-        </h2>
+<ResponsiveContainer width="100%" height="100%">
 
-        <div className="h-[380px]">
+<PieChart>
 
-          <ResponsiveContainer width="100%" height="100%">
+<Pie
+data={emotionData}
+innerRadius={70}
+outerRadius={120}
+dataKey="value"
+label>
 
-            <PieChart>
+{emotionData.map((entry,index)=>(
+<Cell key={index} fill={COLORS[index % COLORS.length]}/>
+))}
 
-              <Pie
-                data={emotionData}
-                cx="50%"
-                cy="50%"
-                innerRadius={70}
-                outerRadius={120}
-                dataKey="value"
-                label={({name,value})=>`${name}: ${value}`}
-                labelLine={false}
-              >
+</Pie>
 
-                {emotionData.map((entry,index)=>(
-                  <Cell
-                    key={index}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
+<Tooltip/>
+<Legend/>
 
-              </Pie>
+</PieChart>
 
-              <Tooltip/>
-              <Legend/>
+</ResponsiveContainer>
 
-            </PieChart>
+</div>
 
-          </ResponsiveContainer>
+</div>
 
-        </div>
 
-      </div>
+<div className="bg-gradient-to-br from-purple-900/20 to-black/40
+border border-white/10 backdrop-blur-xl
+p-10 rounded-2xl mb-20">
 
+<h2 className="text-2xl font-semibold mb-6">
+Mood Trend (Weekly)
+</h2>
 
+<div className="h-[420px]">
 
-      {/* MOOD TREND */}
+<ResponsiveContainer width="100%" height="100%">
 
-      <div className="bg-gradient-to-br from-purple-900/20 to-black/40
-      border border-white/10 backdrop-blur-xl
-      p-10 rounded-2xl mb-20">
+<LineChart data={trend}>
 
-        <h2 className="text-2xl font-semibold mb-6">
-          Mood Trend (Weekly)
-        </h2>
+<CartesianGrid strokeDasharray="3 3"/>
 
-        <div className="h-[420px]">
+<XAxis dataKey="day"/>
 
-          <ResponsiveContainer width="100%" height="100%">
+<YAxis domain={[-1,1]}/>
 
-            <LineChart
-              data={moodTrendData}
-              margin={{top:20,right:30,left:0,bottom:10}}
-            >
+<Tooltip/>
 
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="rgba(255,255,255,0.05)"
-              />
+<Line
+type="monotone"
+dataKey="mood"
+stroke="#a855f7"
+strokeWidth={3}
+/>
 
-              <XAxis dataKey="day" stroke="#9ca3af"/>
+</LineChart>
 
-              <YAxis domain={[-1,1]} stroke="#9ca3af"/>
+</ResponsiveContainer>
 
-              <Tooltip/>
+</div>
 
-              <Line
-                type="monotone"
-                dataKey="mood"
-                stroke="#a855f7"
-                strokeWidth={3}
-                dot={{r:5}}
-                activeDot={{r:8}}
-              />
+</div>
 
-            </LineChart>
 
-          </ResponsiveContainer>
+<div className="bg-gradient-to-br from-indigo-900/20 to-black/40
+border border-white/10 backdrop-blur-xl
+p-10 rounded-2xl mb-20">
 
-        </div>
+<h2 className="text-2xl font-semibold mb-6">
+Weekly Emotion Analysis
+</h2>
 
-      </div>
+<div className="h-[420px]">
 
+<ResponsiveContainer width="100%" height="100%">
 
+<BarChart data={weekly}>
 
-      {/* WEEKLY BAR CHART */}
+<CartesianGrid strokeDasharray="3 3"/>
 
-      <div className="bg-gradient-to-br from-indigo-900/20 to-black/40
-      border border-white/10 backdrop-blur-xl
-      p-10 rounded-2xl mb-20">
+<XAxis dataKey="day"/>
 
-        <h2 className="text-2xl font-semibold mb-6">
-          Weekly Emotion Analysis
-        </h2>
+<YAxis/>
 
-        <div className="h-[420px]">
+<Tooltip/>
+<Legend/>
 
-          <ResponsiveContainer width="100%" height="100%">
+<Bar dataKey="happy" fill="#a855f7"/>
+<Bar dataKey="sad" fill="#6366f1"/>
+<Bar dataKey="stressed" fill="#ec4899"/>
 
-            <BarChart data={weeklyEmotionData}>
+</BarChart>
 
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)"/>
+</ResponsiveContainer>
 
-              <XAxis dataKey="day" stroke="#9ca3af"/>
+</div>
 
-              <YAxis stroke="#9ca3af"/>
+</div>
 
-              <Tooltip/>
+</Layout>
 
-              <Legend/>
-
-              <Bar dataKey="happy" fill="#a855f7"/>
-
-              <Bar dataKey="sad" fill="#6366f1"/>
-
-              <Bar dataKey="stressed" fill="#ec4899"/>
-
-            </BarChart>
-
-          </ResponsiveContainer>
-
-        </div>
-
-      </div>
-
-
-
-      {/* EMOTION BREAKDOWN */}
-
-      <div className="bg-gradient-to-br from-white/5 to-white/0
-      border border-white/10 backdrop-blur-xl
-      p-10 rounded-2xl mb-12">
-
-        <h2 className="text-2xl font-semibold mb-6">
-          Emotion Breakdown
-        </h2>
-
-        <div className="grid grid-cols-4 gap-6">
-
-          {Object.entries(data.emotion_distribution).map(([emotion,value])=>{
-
-            return(
-
-              <motion.div
-              key={emotion}
-              whileHover={{scale:1.07}}
-              className="bg-black/40 border border-white/10
-              p-6 rounded-xl">
-
-                <p className="capitalize text-sm text-gray-400">
-                  {emotion}
-                </p>
-
-                <p className="text-3xl font-semibold mt-1">
-                  {value}
-                </p>
-
-              </motion.div>
-
-            );
-
-          })}
-
-        </div>
-
-      </div>
-
-
-
-      {/* METRICS */}
-
-      <div className="bg-gradient-to-br from-white/5 to-white/0
-      border border-white/10 backdrop-blur-xl
-      p-10 rounded-2xl mb-20">
-
-        <h2 className="text-2xl font-semibold mb-6">
-          Average Emotional Metrics
-        </h2>
-
-        <div className="grid grid-cols-2 gap-6">
-
-          {Object.entries(data.averages).map(([metric,value])=>(
-
-            <motion.div
-            key={metric}
-            whileHover={{scale:1.07}}
-            className="bg-black/40 border border-white/10
-            p-6 rounded-xl">
-
-              <p className="text-gray-400 text-sm capitalize">
-                {metric}
-              </p>
-
-              <p className="text-3xl font-semibold mt-1">
-                {value.toFixed(2)}
-              </p>
-
-            </motion.div>
-
-          ))}
-
-        </div>
-
-      </div>
-
-
-
-      {/* AI INSIGHT CARD */}
-
-      <div className="bg-gradient-to-br from-purple-900/30 to-black/40
-      border border-purple-500/20 backdrop-blur-xl
-      p-10 rounded-2xl">
-
-        <h2 className="text-2xl font-semibold mb-4">
-          AI Insight
-        </h2>
-
-        <p className="text-gray-300 leading-relaxed">
-
-          Your emotional data suggests mixed mood patterns this week.
-          Stress appears mid-week while positive emotions increase
-          toward the weekend. Maintaining journaling consistency
-          helps AI detect emotional trends more accurately.
-
-        </p>
-
-      </div>
-
-    </Layout>
-
-  );
+);
 }
