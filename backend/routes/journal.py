@@ -192,7 +192,7 @@ def journal_stability_index(user=Depends(get_current_user)):
     valences = [j.get("valence", 0) for j in journals]
     intensities = [j.get("intensity", 0) for j in journals]
 
-    avg_valence = sum(valences) / len(valences)
+    avg_valence = sum(valences) / len(valences) 
     avg_intensity = sum(intensities) / len(intensities)
 
     if len(valences) > 1:

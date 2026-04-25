@@ -1,7 +1,3 @@
-
-
-
-
 import NeuralBackground from "../components/NeuralBackground";
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
