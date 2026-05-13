@@ -524,10 +524,10 @@ If you find this project helpful, please consider:
 
 ##  Project Stats
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/MindMirror-AI?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/MindMirror-AI?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/MindMirror-AI)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/MindMirror-AI)
+![GitHub stars](https://img.shields.io/github/stars/student-yashsingh/MindMirror-AI?style=social)
+![GitHub forks](https://img.shields.io/github/forks/student-yashsingh/MindMirror-AI?style=social)
+![GitHub issues](https://img.shields.io/github/issues/student-yashsingh/MindMirror-AI)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/student-yashsingh/MindMirror-AI)
 
 ---
 
