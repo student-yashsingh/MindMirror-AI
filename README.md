@@ -616,7 +616,7 @@ limitations under the License.
 
 <br/>
 
-**Built by Yash Singh**
+**Built by Yash Singh and Ankit**
 
 *Your journey to emotional clarity starts here.*
 
