@@ -188,23 +188,58 @@ export default function Chat() {
   }, [messages]);
 
   useEffect(() => {
-    socketRef.current = new WebSocket("ws://localhost:8000/ws/chat");
+    let ws;
+    let reconnectTimer;
+    let destroyed = false;
 
-    socketRef.current.onopen = () => setIsConnected(true);
-    socketRef.current.onclose = () => setIsConnected(false);
+    function connect() {
+      const token = localStorage.getItem("token");
+      ws = new WebSocket(`ws://localhost:8000/ws/chat?token=${token}`);
+      socketRef.current = ws;
 
-    socketRef.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === "message") {
-        setIsTyping(false);
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: data.content },
-        ]);
-      }
+      ws.onopen = () => {
+        if (!destroyed) setIsConnected(true);
+      };
+
+      ws.onclose = () => {
+        if (!destroyed) {
+          setIsConnected(false);
+          // Auto-reconnect after 3 seconds
+          reconnectTimer = setTimeout(() => {
+            if (!destroyed) connect();
+          }, 3000);
+        }
+      };
+
+      ws.onerror = (err) => {
+        console.error("WebSocket error:", err);
+        ws.close();
+      };
+
+      ws.onmessage = (event) => {
+        if (destroyed) return;
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === "message") {
+            setIsTyping(false);
+            setMessages((prev) => [
+              ...prev,
+              { role: "assistant", content: data.content },
+            ]);
+          }
+        } catch (e) {
+          console.error("Failed to parse message:", e);
+        }
+      };
+    }
+
+    connect();
+
+    return () => {
+      destroyed = true;
+      clearTimeout(reconnectTimer);
+      if (ws) ws.close();
     };
-
-    return () => socketRef.current.close();
   }, []);
 
   useEffect(() => {
@@ -213,11 +248,15 @@ export default function Chat() {
 
   const sendMessage = () => {
     if (!message.trim()) return;
-    setMessages((prev) => [...prev, { role: "user", content: message }]);
-    if (socketRef.current.readyState === WebSocket.OPEN) {
-      socketRef.current.send(message);
-      setIsTyping(true);
+
+    if (!socketRef.current || socketRef.current.readyState !== WebSocket.OPEN) {
+      alert("Not connected to server. Please wait and try again.");
+      return;
     }
+
+    setMessages((prev) => [...prev, { role: "user", content: message }]);
+    socketRef.current.send(message);
+    setIsTyping(true);
     setMessage("");
     inputRef.current?.focus();
   };
