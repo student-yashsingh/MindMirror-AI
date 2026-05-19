@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
+from pydantic import BaseModel
 from database import users_collection
 from auth import (
     hash_password,
@@ -8,19 +9,24 @@ from auth import (
     verify_google_token
 )
 
+class GoogleLoginRequest(BaseModel):
+    credential: str
+
+class RegisterRequest(BaseModel):
+    username: str
+    email: str
+    password: str
+
 router = APIRouter()
 
 # REGISTER 
 
 @router.post("/register")
-def register(data: dict):
+def register(data: RegisterRequest):
 
-    username = data.get("username")
-    email = data.get("email")
-    password = data.get("password")
-
-    if not username or not email or not password:
-        raise HTTPException(status_code=400, detail="Missing fields")
+    username = data.username
+    email = data.email
+    password = data.password
 
     existing_user = users_collection.find_one({"email": email})
 
@@ -73,14 +79,11 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
 #  GOOGLE LOGIN  #
 
 @router.post("/google-login")
-def google_login(data: dict):
+def google_login(data: GoogleLoginRequest):
 
-    token = data.get("credential")
+    token = data.credential
 
     print("GOOGLE TOKEN RECEIVED:", token)
-
-    if not token:
-        raise HTTPException(status_code=400, detail="Google token missing")
 
     google_user = verify_google_token(token)
 
