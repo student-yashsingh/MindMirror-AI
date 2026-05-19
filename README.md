@@ -168,6 +168,7 @@ MindMirror-AI/
 - **Node.js** 16 or higher
 - **MongoDB Atlas** account (or local MongoDB instance)
 - **Groq API Key** ([Get it here](https://console.groq.com))
+- **Google OAuth Client ID** ([Get it here](https://console.cloud.google.com/)) — required for Google login
 
 ### Backend Setup
 
@@ -197,6 +198,7 @@ MindMirror-AI/
 4. **Install dependencies**
    ```bash
    pip install -r requirements.txt
+   pip install "uvicorn[standard]"
    ```
 
 5. **Configure environment variables**
@@ -207,7 +209,9 @@ MindMirror-AI/
    GROQ_API_KEY=your_groq_api_key_here
    MODEL_NAME=llama-3.1-8b-instant
    JWT_SECRET_KEY=your_secret_key_here
+   SECRET_KEY=your_secret_key_here
    JWT_ALGORITHM=HS256
+   GOOGLE_CLIENT_ID=your_google_oauth_client_id_here
    ```
 
 6. **Run the backend server**
@@ -233,7 +237,10 @@ MindMirror-AI/
 
 3. **Configure environment (optional)**
    
-   Update API endpoint in source files if needed (default: `http://localhost:8000`)
+   Create a `.env` file in the `frontend/` directory:
+   ```env
+   VITE_GOOGLE_CLIENT_ID=your_google_oauth_client_id_here
+   ```
 
 4. **Run the development server**
    ```bash
@@ -369,7 +376,8 @@ Authorization: Bearer {token}
 
 #### Real-time Chat
 ```javascript
-const ws = new WebSocket('ws://localhost:8000/ws/chat');
+const token = localStorage.getItem('token');
+const ws = new WebSocket(`ws://localhost:8000/ws/chat?token=${token}`);
 
 ws.onopen = () => {
   ws.send('Hello, I need some emotional support');
@@ -439,12 +447,15 @@ MindMirror AI's interface is built around:
 - [x] Backend API with FastAPI
 - [x] MongoDB integration
 - [x] JWT authentication
+- [x] Google OAuth 2.0 login
 - [x] AI emotion detection
 - [x] Journal CRUD operations
 - [x] Analytics endpoints
 - [x] React frontend
 - [x] Dashboard with visualizations
-- [x] WebSocket chat
+- [x] WebSocket chat with auto-reconnect
+- [x] Conversation history in AI chat
+- [x] Profile page with logout
 
 ### Phase 2 (In Progress)
 - [ ] Deployment to cloud (AWS/Heroku/Vercel)
@@ -494,7 +505,6 @@ Contributions are welcome! Here's how you can help:
 
 ## Known Issues
 
-- WebSocket reconnection handling needs improvement
 - Large journal history may slow down dashboard loading
 - Date/time timezone handling requires refinement
 
