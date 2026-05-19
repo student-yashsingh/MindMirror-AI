@@ -47,7 +47,7 @@ class UserRegister(BaseModel):
 
 
 class GoogleLoginRequest(BaseModel):
-    token: str
+    credential: str
 
 
 # ---------------- REGISTER ---------------- #
@@ -114,24 +114,28 @@ def google_login(data: GoogleLoginRequest):
     try:
 
         idinfo = id_token.verify_oauth2_token(
-            data.token,
+            data.credential,
             requests.Request(),
             GOOGLE_CLIENT_ID
         )
 
         email = idinfo["email"]
+        name = idinfo.get("name", "Google User")
 
         db_user = users_collection.find_one({"email": email})
 
-        # Do NOT auto-create user
         if not db_user:
-            raise HTTPException(
-                status_code=400,
-                detail="Google account not registered. Please sign up first."
-            )
+            result = users_collection.insert_one({
+                "username": name,
+                "email": email,
+                "password": None
+            })
+            user_id = str(result.inserted_id)
+        else:
+            user_id = str(db_user["_id"])
 
         access_token = create_access_token({
-            "user_id": str(db_user["_id"])
+            "user_id": user_id
         })
 
         return {
@@ -141,9 +145,9 @@ def google_login(data: GoogleLoginRequest):
 
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid Google token")
-    
-    
-    
+
+
+
 @router.get("/profile")
 async def get_profile(current_user: dict = Depends(get_current_user)):
     return {

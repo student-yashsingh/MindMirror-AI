@@ -276,6 +276,11 @@ export default function Profile() {
     loadProfile();
   }, [token]);
 
+  function handleLogout() {
+    setToken(null);
+    navigate("/login");
+  }
+
   async function changePassword() {
     const old_password = prompt("Enter your current password");
     if (!old_password) return;
@@ -430,6 +435,26 @@ export default function Profile() {
 
         .btn-primary:hover::after {
           animation: shimmer 0.6s ease forwards;
+        }
+
+        .btn-logout {
+          padding: 13px 28px;
+          border-radius: 14px;
+          border: 1px solid rgba(251,191,36,0.35);
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 600;
+          font-family: 'DM Sans', sans-serif;
+          background: rgba(251,191,36,0.1);
+          color: #fde68a;
+          transition: background 0.25s, border-color 0.25s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        .btn-logout:hover {
+          background: rgba(251,191,36,0.22);
+          border-color: rgba(251,191,36,0.55);
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(251,191,36,0.2);
         }
 
         .btn-danger {
@@ -687,6 +712,14 @@ export default function Profile() {
                 type: "primary",
               },
               {
+                icon: "🚪",
+                title: "Sign Out",
+                desc: "Log out of your MindMirror account",
+                action: handleLogout,
+                actionLabel: "Logout",
+                type: "logout",
+              },
+              {
                 icon: "🗑️",
                 title: "Delete Account",
                 desc: "Permanently remove your account and all data",
@@ -700,17 +733,17 @@ export default function Profile() {
                 padding: "18px 22px",
                 borderRadius: 16,
                 background: "rgba(255,255,255,0.03)",
-                border: `1px solid ${row.type === "danger" ? "rgba(239,68,68,0.12)" : "rgba(255,255,255,0.07)"}`,
+                border: `1px solid ${row.type === "danger" ? "rgba(239,68,68,0.12)" : row.type === "logout" ? "rgba(251,191,36,0.1)" : "rgba(255,255,255,0.07)"}`,
                 transition: "background 0.25s",
               }}
-                onMouseEnter={e => e.currentTarget.style.background = row.type === "danger" ? "rgba(239,68,68,0.07)" : "rgba(124,58,237,0.07)"}
+                onMouseEnter={e => e.currentTarget.style.background = row.type === "danger" ? "rgba(239,68,68,0.07)" : row.type === "logout" ? "rgba(251,191,36,0.06)" : "rgba(124,58,237,0.07)"}
                 onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.03)"}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <div style={{
                     width: 42, height: 42, borderRadius: 12,
-                    background: row.type === "danger" ? "rgba(239,68,68,0.12)" : "rgba(124,58,237,0.15)",
-                    border: `1px solid ${row.type === "danger" ? "rgba(239,68,68,0.2)" : "rgba(124,58,237,0.25)"}`,
+                    background: row.type === "danger" ? "rgba(239,68,68,0.12)" : row.type === "logout" ? "rgba(251,191,36,0.1)" : "rgba(124,58,237,0.15)",
+                    border: `1px solid ${row.type === "danger" ? "rgba(239,68,68,0.2)" : row.type === "logout" ? "rgba(251,191,36,0.2)" : "rgba(124,58,237,0.25)"}`,
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: 18, flexShrink: 0,
                   }}>
@@ -728,7 +761,7 @@ export default function Profile() {
 
                 <button
                   onClick={row.action}
-                  className={row.type === "danger" ? "btn-danger" : "btn-primary"}
+                  className={row.type === "danger" ? "btn-danger" : row.type === "logout" ? "btn-logout" : "btn-primary"}
                 >
                   {row.actionLabel}
                 </button>
