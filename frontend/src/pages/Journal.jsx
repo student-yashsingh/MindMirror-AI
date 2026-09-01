@@ -297,6 +297,7 @@
 
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import api from "../api/api";
 import { AuthContext } from "../context/AuthContext";
 import Layout from "../components/Layout";
 import { motion, AnimatePresence } from "framer-motion";
@@ -315,10 +316,9 @@ export default function Journal() {
     if (!title.trim() || !content.trim()) return;
     try {
       setLoading(true);
-      const res = await axios.post(
-        "http://localhost:8000/journal",
-        { title, content },
-        { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
+      const res = await api.post(
+        "/journal",
+        { title, content }
       );
       setAnalysis(res.data);
       setTitle("");
@@ -335,9 +335,7 @@ export default function Journal() {
   async function loadHistory() {
     if (!token) return;
     try {
-      const res = await axios.get("http://localhost:8000/journal/history", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.get("/journal/history");
       setHistory(res.data?.journals || []);
     } catch (err) {
       console.log("History error:", err.response?.data || err.message);
@@ -347,9 +345,7 @@ export default function Journal() {
   async function loadAdvice() {
     if (!token) return;
     try {
-      const res = await axios.get("http://localhost:8000/journal/advice", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.get("/journal/advice");
       setAdvice(res.data);
     } catch (err) {
       console.log("Advice error:", err.response?.data || err.message);
@@ -736,8 +732,50 @@ export default function Journal() {
                 }}>
                   {typeof advice.ai_advice === "string"
                     ? advice.ai_advice
-                    : JSON.stringify(advice.ai_advice)}
+                    : advice.ai_advice?.advice || advice.ai_advice?.analysis || JSON.stringify(advice.ai_advice)}
                 </p>
+
+                {/* Risk level + analysis badges if available */}
+                {advice.ai_advice && typeof advice.ai_advice === "object" && (
+                  <div style={{ marginTop: 18, display: "flex", flexDirection: "column", gap: 10 }}>
+                    {advice.ai_advice.analysis && (
+                      <div style={{
+                        padding: "10px 14px", borderRadius: 10,
+                        background: "rgba(99,102,241,0.1)",
+                        border: "1px solid rgba(99,102,241,0.2)",
+                        fontSize: 13, color: "rgba(200,195,255,0.7)", lineHeight: 1.6,
+                      }}>
+                        <span style={{ fontWeight: 600, color: "#a5b4fc" }}>Pattern: </span>
+                        {advice.ai_advice.analysis}
+                      </div>
+                    )}
+                    {advice.ai_advice.risk_level && (
+                      <div style={{
+                        display: "inline-flex", alignItems: "center", gap: 6,
+                        padding: "5px 12px", borderRadius: 20, width: "fit-content",
+                        background: advice.ai_advice.risk_level === "High"
+                          ? "rgba(248,113,113,0.12)"
+                          : advice.ai_advice.risk_level === "Moderate"
+                            ? "rgba(251,191,36,0.12)"
+                            : "rgba(74,222,128,0.12)",
+                        border: `1px solid ${advice.ai_advice.risk_level === "High"
+                          ? "rgba(248,113,113,0.3)"
+                          : advice.ai_advice.risk_level === "Moderate"
+                            ? "rgba(251,191,36,0.3)"
+                            : "rgba(74,222,128,0.3)"}`,
+                        fontSize: 12, fontWeight: 600,
+                        color: advice.ai_advice.risk_level === "High"
+                          ? "#f87171"
+                          : advice.ai_advice.risk_level === "Moderate"
+                            ? "#fbbf24"
+                            : "#4ade80",
+                      }}>
+                        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "currentColor", display: "inline-block" }} />
+                        {advice.ai_advice.risk_level} Risk
+                      </div>
+                    )}
+                  </div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>

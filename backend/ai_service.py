@@ -8,6 +8,7 @@ load_dotenv()
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
+MODEL = os.getenv("MODEL_NAME", "llama-3.1-8b-instant")
 
 
 #  Extract JSON safely
@@ -15,57 +16,70 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 def _extract_json(text: str):
     try:
         text = text.strip()
-
-        
         text = re.sub(r"```json|```", "", text)
-
         # find JSON block
         match = re.search(r"\{.*\}", text, re.DOTALL)
-
         if match:
             return json.loads(match.group())
-
     except Exception as e:
         print("JSON Extract Error:", e)
-
     return None
-
 
 
 # Emotion Detection
 
 def detect_emotion_with_llm(text: str):
 
-    prompt = f"""
-Analyze the emotional tone of this journal entry.
+    prompt = f"""Analyze the emotional tone of this journal entry and return ONLY a JSON object, no explanation.
 
-Return STRICT JSON only:
+Valid emotion values: Happy, Sad, Stressed, Neutral, Angry, Anxious
+Confidence: float between 0.0 and 1.0
+Valence: float between -1.0 (very negative) and 1.0 (very positive)
+Intensity: float between 0.0 and 1.0
+Energy level: Low, Medium, or High
 
+Return exactly this structure:
 {{
-  "emotion": "Happy/Sad/Stressed/Neutral",
-  "confidence": 0.0-1.0,
-  "valence": -1.0 to 1.0,
-  "intensity": 0.0-1.0,
-  "energy_level": "Low/Medium/High"
+  "emotion": "Happy",
+  "confidence": 0.9,
+  "valence": 0.8,
+  "intensity": 0.7,
+  "energy_level": "High"
 }}
 
-Journal:
-{text}
-"""
+Journal entry: {text}"""
 
     try:
         response = client.chat.completions.create(
-            model=os.getenv("MODEL_NAME"),
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.2
+            model=MODEL,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are an emotion analysis API. Always respond with valid JSON only. No markdown, no explanation."
+                },
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.1,
+            max_tokens=150
         )
 
         content = response.choices[0].message.content
+        print("Emotion LLM raw:", content)
 
         parsed = _extract_json(content)
 
         if parsed:
+            # Normalise emotion casing
+            emotion_map = {
+                "happy": "Happy", "sad": "Sad",
+                "stressed": "Stressed", "neutral": "Neutral",
+                "angry": "Angry", "anxious": "Anxious"
+            }
+            raw_emotion = str(parsed.get("emotion", "Neutral")).lower()
+            parsed["emotion"] = emotion_map.get(raw_emotion, "Neutral")
             return parsed
+
+        print("Emotion Detection: failed to parse JSON from:", content)
 
     except Exception as e:
         print("Emotion Detection Error:", e)
@@ -93,36 +107,40 @@ def generate_weekly_summary(journals):
 
     combined_text = "\n".join([j.get("content", "") for j in journals])
 
-    prompt = f"""
-You are a mental wellness assistant.
+    prompt = f"""You are a mental wellness assistant. Analyze these journal entries from the past week and return ONLY a JSON object.
 
-Analyze the following journal entries from the past week and generate a short summary.
-
-Return STRICT JSON:
-
+Return exactly this structure:
 {{
- "summary": "short emotional summary",
- "dominant_emotion": "Happy/Sad/Stressed/Neutral",
- "suggestion": "short supportive advice"
+  "summary": "short emotional summary of the week",
+  "dominant_emotion": "Happy",
+  "suggestion": "short supportive advice"
 }}
 
-Journals:
-{combined_text}
-"""
+Journal entries:
+{combined_text}"""
 
     try:
         response = client.chat.completions.create(
-            model=os.getenv("MODEL_NAME"),
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.3
+            model=MODEL,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a mental wellness API. Always respond with valid JSON only. No markdown, no explanation."
+                },
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3,
+            max_tokens=300
         )
 
         content = response.choices[0].message.content
+        print("Weekly Summary LLM raw:", content)
 
         parsed = _extract_json(content)
-
         if parsed:
             return parsed
+
+        print("Weekly Summary: failed to parse JSON from:", content)
 
     except Exception as e:
         print("Weekly Summary Error:", e)
@@ -134,41 +152,44 @@ Journals:
     }
 
 
-
 # Contextual Advice Generator
 
 def generate_contextual_advice(context):
 
-    prompt = f"""
-You are a mental wellness assistant.
+    prompt = f"""You are a compassionate mental wellness assistant. Based on the user's emotional data, provide helpful advice and return ONLY a JSON object.
 
-Based on the following emotional analytics data, give helpful advice.
-
-Return STRICT JSON:
-
+Return exactly this structure:
 {{
- "risk_level": "Low/Moderate/High",
- "analysis": "short explanation of emotional pattern",
- "advice": "practical coping suggestion"
+  "risk_level": "Low",
+  "analysis": "brief explanation of the emotional pattern observed",
+  "advice": "practical, warm, specific coping suggestion in 2-3 sentences"
 }}
 
-User Emotional Data:
-{context}
-"""
+User emotional data:
+{json.dumps(context, indent=2)}"""
 
     try:
         response = client.chat.completions.create(
-            model=os.getenv("MODEL_NAME"),
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.4
+            model=MODEL,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a mental wellness API. Always respond with valid JSON only. No markdown, no explanation."
+                },
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.4,
+            max_tokens=300
         )
 
         content = response.choices[0].message.content
+        print("Advice LLM raw:", content)
 
         parsed = _extract_json(content)
-
         if parsed:
             return parsed
+
+        print("Advice: failed to parse JSON from:", content)
 
     except Exception as e:
         print("Advice Generation Error:", e)

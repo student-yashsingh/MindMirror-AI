@@ -333,6 +333,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../api/api";
 import { GoogleLogin } from "@react-oauth/google";
 import { motion } from "framer-motion";
 
@@ -347,7 +348,7 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/register", {
+      const res = await api.post("/register", {
         username: name,
         email,
         password,
@@ -367,8 +368,8 @@ export default function Register() {
 
   const handleGoogleSignup = async (credentialResponse) => {
     try {
-      const res = await axios.post("http://localhost:8000/google-login", {
-        token: credentialResponse.credential,
+      const res = await api.post("/google-login", {
+        credential: credentialResponse.credential,
       });
       setToken(res.data.access_token);
       navigate("/dashboard");

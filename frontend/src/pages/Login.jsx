@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../api/api";
 import { GoogleLogin } from "@react-oauth/google";
 import { motion } from "framer-motion";
 import NeuralBackground from "../components/NeuralBackground";
@@ -19,8 +20,8 @@ export default function Login(){
 
     try{
 
-      const res = await axios.post(
-        "http://localhost:8000/login",
+      const res = await api.post(
+        "/login",
         new URLSearchParams({
           username: email,
           password: password
@@ -52,8 +53,8 @@ export default function Login(){
   
     try {
   
-      const res = await axios.post(
-        "http://localhost:8000/google-login",
+      const res = await api.post(
+        "/google-login",
         {
           credential: credentialResponse.credential
         }

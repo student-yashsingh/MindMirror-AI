@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import api from "../api/api";
 import { AuthContext } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import Layout from "../components/Layout";
@@ -36,16 +37,14 @@ async function load(){
 
 try{
 
-const summary = await axios.get(
-"http://localhost:8000/journal/dashboard-summary",
-{headers:{Authorization:`Bearer ${token}`}}
+const summary = await api.get(
+"/journal/dashboard-summary"
 );
 
 setData(summary.data);
 
-const trendRes = await axios.get(
-"http://localhost:8000/journal/trend",
-{headers:{Authorization:`Bearer ${token}`}}
+const trendRes = await api.get(
+"/journal/trend"
 );
 
 const trendFormatted = trendRes.data.trend.map(t=>({
@@ -55,9 +54,8 @@ mood:t.valence
 
 setTrend(trendFormatted);
 
-const historyRes = await axios.get(
-"http://localhost:8000/journal/history",
-{headers:{Authorization:`Bearer ${token}`}}
+const historyRes = await api.get(
+"/journal/history"
 );
 
 const journals = historyRes.data.journals;

@@ -194,7 +194,9 @@ export default function Chat() {
 
     function connect() {
       const token = localStorage.getItem("token");
-      ws = new WebSocket(`ws://localhost:8000/ws/chat?token=${token}`);
+      const wsBase = (import.meta.env.VITE_API_BASE_URL || "http://localhost:8000")
+        .replace(/^http/, "ws");
+      ws = new WebSocket(`${wsBase}/ws/chat?token=${token}`);
       socketRef.current = ws;
 
       ws.onopen = () => {

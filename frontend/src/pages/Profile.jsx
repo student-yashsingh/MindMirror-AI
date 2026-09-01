@@ -252,6 +252,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import api from "../api/api";
 import { AuthContext } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import Layout from "../components/Layout";
@@ -265,9 +266,7 @@ export default function Profile() {
   useEffect(() => {
     async function loadProfile() {
       try {
-        const res = await axios.get("http://localhost:8000/user/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await api.get("/user/profile");
         setUser(res.data);
       } catch (err) {
         console.log(err);
@@ -287,10 +286,9 @@ export default function Profile() {
     const new_password = prompt("Enter your new password");
     if (!new_password) return;
     try {
-      await axios.put(
-        "http://localhost:8000/user/change-password",
-        { old_password, new_password },
-        { headers: { Authorization: `Bearer ${token}` } }
+      await api.put(
+        "/user/change-password",
+        { old_password, new_password }
       );
       alert("Password updated successfully");
     } catch (err) {
@@ -305,9 +303,7 @@ export default function Profile() {
     );
     if (!confirmDelete) return;
     try {
-      await axios.delete("http://localhost:8000/user/delete-account", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.delete("/user/delete-account");
       alert("Account deleted successfully");
       setToken(null);
       localStorage.removeItem("token");

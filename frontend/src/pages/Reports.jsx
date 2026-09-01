@@ -320,6 +320,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Layout from "../components/Layout";
 import axios from "axios";
+import api from "../api/api";
 import { motion } from "framer-motion";
 
 import {
@@ -376,9 +377,7 @@ export default function Reports() {
   }, [token]);
 
   async function loadMonthly() {
-    const res = await axios.get("http://localhost:8000/journal/analytics", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await api.get("/journal/analytics");
     const dist = res.data.emotion_distribution;
     setMonthlyEmotionData([
       { name: "Happy", value: dist.Happy },
@@ -389,9 +388,7 @@ export default function Reports() {
   }
 
   async function loadTrend() {
-    const res = await axios.get("http://localhost:8000/journal/trend", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await api.get("/journal/trend");
     setMoodTrend(res.data.trend.map(item => ({
       day: new Date(item.date).toLocaleDateString("en-US", { weekday: "short" }),
       mood: item.valence,
@@ -399,9 +396,7 @@ export default function Reports() {
   }
 
   async function loadWeekly() {
-    const res = await axios.get("http://localhost:8000/journal/history", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await api.get("/journal/history");
     const journals = res.data.journals;
     const today = new Date();
     const sevenDaysAgo = new Date();
@@ -431,9 +426,7 @@ export default function Reports() {
   }
 
   async function loadAdvice() {
-    const res = await axios.get("http://localhost:8000/journal/advice", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await api.get("/journal/advice");
     setAdvice(res.data);
   }
 
