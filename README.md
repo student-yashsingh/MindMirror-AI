@@ -36,7 +36,8 @@
 </div>
 
 ## Overview
-
+**Live at**: https://mind-mirror-ai-theta.vercel.app/
+**BUT FIRST LOAD RENDER LINK FOR BACKEND RUNNING**: https://mindmirror-ai-pn1k.onrender.com/:-
 **MindMirror AI** is an intelligent mental wellness platform that fuses the intimacy of personal journaling with the analytical power of large language models. Every entry you write is processed in real time — emotions are detected, patterns are tracked, and personalized insights are surfaced so you can understand yourself more clearly.
 
 Mental health awareness is no longer optional. MindMirror gives you a private, intelligent space to process your inner world — without judgment, without noise.
